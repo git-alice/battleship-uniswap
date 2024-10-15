@@ -9,7 +9,7 @@ let telemetryWorker;
 
 class Battleship {
     start() {
-        telemetryWorker = new Worker("./TelemetryClient/telemetryClient.js");   
+        telemetryWorker = new Worker("./TelemetryClient/telemetryClient.js");
 
         console.log("Starting...");
         telemetryWorker.postMessage({eventName: 'ApplicationStarted', properties:  {Technology: 'Node.js'}});
@@ -50,6 +50,8 @@ class Battleship {
             console.log("+------------------------------------------+");
             console.log("|              Player's turn               |");
             console.log("+------------------------------------------+");
+            console.log(`enemy fleet: ${this.enemyFleet.filter(s => (s.notHitted != 0)).map(s => s.name + " " + s.notHitted).join(", ")}`);
+            console.log(`destroed enemy fleet: ${this.enemyFleet.filter(s => (s.notHitted == 0)).map(s => s.name + " " + s.notHitted).join(", ")}`);
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
