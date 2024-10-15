@@ -10,6 +10,7 @@ telemetryWorker.postMessage({eventName: 'Name entered', properties:  {Name: name
 var age = readline.question(cliColor.green("What is your age? "));
 telemetryWorker.postMessage({eventName: 'Age entered', properties:  {Age: age}});
 
+
 //client.trackEvent({name: "name entered", properties: {name: name}});
 //client.flush({callback: this.askAge});
 
