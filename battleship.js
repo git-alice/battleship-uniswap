@@ -47,8 +47,9 @@ class Battleship {
         console.log("    \"\"\"\"");
 
         do {
-            console.log();
-            console.log("Player, it's your turn");
+            console.log("+------------------------------------------+");
+            console.log("|              Player's turn               |");
+            console.log("+------------------------------------------+");
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
@@ -70,6 +71,10 @@ class Battleship {
 
             console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
 
+            console.log("+------------------------------------------+");
+            console.log("|             Computer's turn              |");
+            console.log("+------------------------------------------+");
+
             var computerPos = this.GetRandomPosition();
             var isHit = gameController.CheckIsHit(this.myFleet, computerPos);
 
@@ -89,6 +94,8 @@ class Battleship {
                 console.log("                 -\\  \\     /  /-");
                 console.log("                   \\  \\   /  /");
             }
+
+            console.log("\n+------------------------------------------+\n");
         }
         while (true);
     }
