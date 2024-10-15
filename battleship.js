@@ -59,17 +59,17 @@ class Battleship {
             if (isHit) {
                 beep();
 
-                console.log("                \\         .  ./");
-                console.log("              \\      .:\";'.:..\"   /");
-                console.log("                  (M^^.^~~:.'\").");
-                console.log("            -   (/  .    . . \\ \\)  -");
-                console.log("               ((| :. ~ ^  :. .|))");
-                console.log("            -   (\\- |  \\ /  |  /)  -");
-                console.log("                 -\\  \\     /  /-");
-                console.log("                   \\  \\   /  /");
+                console.log(cliColor.red("                \\         .  ./"));
+                console.log(cliColor.red("              \\      .:\";'.:..\"   /"));
+                console.log(cliColor.red("                  (M^^.^~~:.'\")."));
+                console.log(cliColor.red("            -   (/  .    . . \\ \\)  -"));
+                console.log(cliColor.red("               ((| :. ~ ^  :. .|))"));
+                console.log(cliColor.red("            -   (\\- |  \\ /  |  /)  -"));
+                console.log(cliColor.red("                 -\\  \\     /  /-"));
+                console.log(cliColor.red("                   \\  \\   /  /"));
             }
 
-            console.log(isHit ? "Yeah ! Nice hit !" : "Miss");
+            console.log(isHit ? "Yeah ! Nice hit !" : cliColor.blue("Miss"));
 
             console.log("+------------------------------------------+");
             console.log("|             Computer's turn              |");
@@ -85,14 +85,14 @@ class Battleship {
             if (isHit) {
                 beep();
 
-                console.log("                \\         .  ./");
-                console.log("              \\      .:\";'.:..\"   /");
-                console.log("                  (M^^.^~~:.'\").");
-                console.log("            -   (/  .    . . \\ \\)  -");
-                console.log("               ((| :. ~ ^  :. .|))");
-                console.log("            -   (\\- |  \\ /  |  /)  -");
-                console.log("                 -\\  \\     /  /-");
-                console.log("                   \\  \\   /  /");
+                console.log(cliColor.yellow("                \\         .  ./"));
+                console.log(cliColor.yellow("              \\      .:\";'.:..\"   /"));
+                console.log(cliColor.yellow("                  (M^^.^~~:.'\")."));
+                console.log(cliColor.yellow("            -   (/  .    . . \\ \\)  -"));
+                console.log(cliColor.yellow("               ((| :. ~ ^  :. .|))"));
+                console.log(cliColor.yellow("            -   (\\- |  \\ /  |  /)  -"));
+                console.log(cliColor.yellow("                 -\\  \\     /  /-"));
+                console.log(cliColor.yellow("                   \\  \\   /  /"));
             }
 
             console.log("\n+------------------------------------------+\n");
