@@ -4,10 +4,10 @@ const readline = require('readline-sync');
 let telemetryWorker = new Worker("./TelemetryClient/telemetryClient2.js");
 telemetryWorker.postMessage({eventName: 'Application started', properties:  {Technology: 'Node.js5'}});
 
-var name = readline.question("What is your name? ");
+var name = readline.question(cliColor.green("What is your name? "));
 telemetryWorker.postMessage({eventName: 'Name entered', properties:  {Name: name}});
 
-var age = readline.question("What is your age? ");
+var age = readline.question(cliColor.green("What is your age? "));
 telemetryWorker.postMessage({eventName: 'Age entered', properties:  {Age: age}});
 
 //client.trackEvent({name: "name entered", properties: {name: name}});
