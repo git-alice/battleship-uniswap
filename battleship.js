@@ -149,10 +149,42 @@ class Battleship {
             console.log();
             console.log(`Please enter the positions for the ${ship.name} (size: ${ship.size})`);
             for (var i = 1; i < ship.size + 1; i++) {
-                    console.log(cliColor.green(`Enter position ${i} of ${ship.size} (i.e A3):`));
-                    const position = readline.question();
-                    telemetryWorker.postMessage({eventName: 'Player_PlaceShipPosition', properties:  {Position: position, Ship: ship.name, PositionInShip: i}});
-                    ship.addPosition(Battleship.ParsePosition(position));
+                console.log(cliColor.green(`Enter first position of ${ship.size} and direction (i.e A3R):`));
+                const position = readline.question();
+
+                if(position[2] === 'R' || position[2] === 'r') {
+                    for (var j = 0; j < ship.size; j++) {
+                        ship.addPosition(new position(letters.get(position.indexOf(position[0]) + j), position[1]));
+                    }
+                    if(position.indexOf(position[0]) + ship.size > 8) {
+                        console.log(cliColor.red("Invalid position, please try again."));
+                        i--;
+                    }
+                } else if(position[2] === 'D' || position[2] === 'd') {
+                    for (var j = 0; j < ship.size; j++) {
+                        ship.addPosition(new position(position[0], parseInt(position[1]) + j));
+                    }
+                    if(parseInt(position[1]) + ship.size > 8) {
+                        console.log(cliColor.red("Invalid position, please try again."));
+                        i--;
+                    }
+                } else if(position[2] === 'L' || position[2] === 'l') {
+                    for (var j = 0; j < ship.size; j++) {
+                        ship.addPosition(new position(letters.get(position.indexOf(position[0]) - j), position[1]));
+                    }
+                    if(position.indexOf(position[0]) - ship.size < 0) {
+                        console.log(cliColor.red("Invalid position, please try again."));
+                        i--;
+                    }
+                } else if(position[2] === 'U' || position[2] === 'u') {
+                    for (var j = 0; j < ship.size; j++) {
+                        ship.addPosition(new position(position[0], parseInt(position[1]) - j));
+                    }
+                    if(parseInt(position[1]) - ship.size < 0) {
+                        console.log(cliColor.red("Invalid position, please try again."));
+                        i--;
+                    }
+                }
             }
         });
     }
