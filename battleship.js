@@ -194,7 +194,7 @@ class Battleship {
                     continue;
                 }
                 const coordinates = line.split(',');
-                coordinates.forEach(c => this.enemyFleet[index].addPosition(new position(c[0], c[1])));
+                coordinates.forEach(c => this.enemyFleet[index].addPosition(new position(c[0].toUpperCase(), c[1])));
                 index++;
             }
         } catch (err) {
