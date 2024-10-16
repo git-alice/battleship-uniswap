@@ -115,6 +115,7 @@ class Battleship {
         if (userWon) {
             console.log(cliColor.green('You are the winner!'))
             this.animationEnd();
+            console.log('-(^-^)-');
         } else {
             console.log(cliColor.blue('You have lost'));
         }
@@ -123,7 +124,7 @@ class Battleship {
     }
 
     static ParsePosition(input) {
-        var letter = input[0].toUpperCase();
+        var letter = input[0];
         var number = input[1];
         return new position(letter, number);
     }
