@@ -120,7 +120,7 @@ class Battleship {
     }
 
     static ParsePosition(input) {
-        var letter = input[0];
+        var letter = input[0].toUpperCase();
         var number = input[1];
         return new position(letter, number);
     }
