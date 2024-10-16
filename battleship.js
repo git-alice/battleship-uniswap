@@ -34,6 +34,23 @@ class Battleship {
         this.StartGame();
     }
 
+    animationEnd() {
+        function sleep(milliseconds) {
+            const date = Date.now();
+            let currentDate = null;
+            do {
+              currentDate = Date.now();
+            } while (currentDate - date < milliseconds);
+          }
+
+        console.clear();
+        let animation = [" .(^-^)'"," -(^-^)-"," '(^-^)."," -(^o^)-"," .(^-^)'"," -(^-^)-"," '(^-^)."," -(^-^)-"];
+        for (let index = 0; index < animation.length; index++) {
+            process.stdout.write(`${animation[index]}\r`);
+            sleep(300);
+        }
+    }
+
     StartGame() {
         console.clear();
         console.log("                  __");
@@ -126,7 +143,6 @@ class Battleship {
 
     InitializeMyFleet() {
         this.myFleet = gameController.InitializeShips();
-
         console.log("Please position your fleet (Game board size is from A to H and 1 to 8) :");
 
         this.myFleet.forEach(function (ship) {
