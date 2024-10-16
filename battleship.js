@@ -193,9 +193,11 @@ class Battleship {
                     ship.addPosition(position[0], parseInt(position[1]) + j);
                 }
             }
-            // if (this.checkCollision(ship, this.myFleet)) {
-            //     console.log(cliColor.red("Invalid position (checkCollision), please try again."));
-            // }
+            if (this.checkCollision(ship, this.myFleet, i)) {
+                console.log(cliColor.red("Invalid position (checkCollision), please try again."));
+                i--;
+                continue;
+            }
         }
     }
 
@@ -222,8 +224,11 @@ class Battleship {
         this.writeToFile();
     }
 
-    checkCollision(ship, fleet) {
+    checkCollision(ship, fleet, i) {
         for (let index = 0; index < fleet.length; index++) {
+            if (index === i) {
+                continue;
+            }
             for (let pos = 0; pos < fleet[index].positions.length; pos++) {
                 for (let i = 0; i < ship.positions.length; i++) {
                     if (fleet[index].positions[pos].column === ship.positions[i].column && fleet[index].positions[pos].row === ship.positions[i].row) {
