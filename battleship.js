@@ -112,9 +112,12 @@ class Battleship {
     }
 
     FinishGame(userWon) {
-        userWon
-            ? console.log('You are the winner!')
-            : console.log('You have lost');
+        if (userWon) {
+            console.log(cliColor.green('You are the winner!'))
+            this.animationEnd();
+        } else {
+            console.log(cliColor.blue('You have lost'));
+        }
 
         process.exit();
     }
@@ -264,6 +267,22 @@ class Battleship {
             for (let pos = 0; pos < this.enemyFleet[index].positions.length; pos++) {
                 fs.writeFileSync('./mapCompute.txt', this.enemyFleet[index].positions[pos].toString() + '\n', { flag: 'a+' });
             }
+        }
+    }
+
+    animationEnd() {
+        function sleep(milliseconds) {
+            const date = Date.now();
+            let currentDate = null;
+            do {
+                currentDate = Date.now();
+            } while (currentDate - date < milliseconds);
+        }
+
+        let animation = [" .(^-^)'"," -(^-^)-"," '(^-^)."," -(^o^)-"," .(^-^)'"," -(^-^)-"," '(^-^)."," -(^-^)-"];
+        for (let index = 0; index < animation.length; index++) {
+            process.stdout.write(`${animation[index]}\r`);
+            sleep(300);
         }
     }
 }
