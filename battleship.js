@@ -1,3 +1,4 @@
+const fs = require('fs');
 const { Worker, isMainThread } = require('worker_threads');
 const readline = require('readline-sync');
 const gameController = require("./GameController/gameController.js");
@@ -128,6 +129,22 @@ class Battleship {
 
         console.log("Please position your fleet (Game board size is from A to H and 1 to 8) :");
 
+        // try {
+        //     const data = fs.readFileSync('./enemyFleets/1.txt', 'utf8');
+        //     let index = 0;
+
+        //     for (const line of data.split('\n')) {
+        //         if (line === '') {
+        //             continue;
+        //         }
+        //         const coordinates = line.split(',');
+        //         coordinates.forEach(c => this.myFleet[index].addPosition(new position(c[0], c[1])));
+        //         index++;
+        //     }
+        // } catch (err) {
+        //     console.error("Error reading file:", err);
+        // }
+
         this.myFleet.forEach(function (ship) {
             console.log();
             console.log(`Please enter the positions for the ${ship.name} (size: ${ship.size})`);
@@ -137,33 +154,29 @@ class Battleship {
                     telemetryWorker.postMessage({eventName: 'Player_PlaceShipPosition', properties:  {Position: position, Ship: ship.name, PositionInShip: i}});
                     ship.addPosition(Battleship.ParsePosition(position));
             }
-        })
+        });
     }
 
     InitializeEnemyFleet() {
         this.enemyFleet = gameController.InitializeShips();
 
-        this.enemyFleet[0].addPosition(new position(letters.B, 4));
-        this.enemyFleet[0].addPosition(new position(letters.B, 5));
-        this.enemyFleet[0].addPosition(new position(letters.B, 6));
-        this.enemyFleet[0].addPosition(new position(letters.B, 7));
-        this.enemyFleet[0].addPosition(new position(letters.B, 8));
+        try {
+            const name = Math.floor((Math.random() * 5));
 
-        this.enemyFleet[1].addPosition(new position(letters.E, 6));
-        this.enemyFleet[1].addPosition(new position(letters.E, 7));
-        this.enemyFleet[1].addPosition(new position(letters.E, 8));
-        this.enemyFleet[1].addPosition(new position(letters.E, 9));
+            const data = fs.readFileSync(`./enemyFleets/${1}.txt`, 'utf8');
+            let index = 0;
 
-        this.enemyFleet[2].addPosition(new position(letters.A, 3));
-        this.enemyFleet[2].addPosition(new position(letters.B, 3));
-        this.enemyFleet[2].addPosition(new position(letters.C, 3));
-
-        this.enemyFleet[3].addPosition(new position(letters.F, 8));
-        this.enemyFleet[3].addPosition(new position(letters.G, 8));
-        this.enemyFleet[3].addPosition(new position(letters.H, 8));
-
-        this.enemyFleet[4].addPosition(new position(letters.C, 5));
-        this.enemyFleet[4].addPosition(new position(letters.C, 6));
+            for (const line of data.split('\n')) {
+                if (line === '') {
+                    continue;
+                }
+                const coordinates = line.split(',');
+                coordinates.forEach(c => this.enemyFleet[index].addPosition(new position(c[0], c[1])));
+                index++;
+            }
+        } catch (err) {
+            console.error("Error reading file:", err);
+        }
     }
 }
 
