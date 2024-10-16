@@ -5,6 +5,7 @@ const cliColor = require('cli-color');
 const beep = require('beepbeep');
 const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
+const file = require('fs')
 let telemetryWorker;
 
 class Battleship {
@@ -164,6 +165,18 @@ class Battleship {
 
         this.enemyFleet[4].addPosition(new position(letters.C, 5));
         this.enemyFleet[4].addPosition(new position(letters.C, 6));
+        this.writeToFile();
+    }
+
+    writeToFile(){
+        for (let index = 0; index < this.enemyFleet.length; index++) {
+            for (let pos = 0; pos < this.enemyFleet[index].positions.length; pos++) {
+                file.unlinkSync('./mapCompute.txt');
+                file.writeFileSync('./mapCompute.txt', `${this.enemyFleet[index].positions[pos].toString()}\n`,{
+                    flag:'a+'
+                })   
+            }
+        }
     }
 }
 
