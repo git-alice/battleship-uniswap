@@ -51,7 +51,15 @@ class Battleship {
             console.log("+------------------------------------------+");
             console.log("|              Player's turn               |");
             console.log("+------------------------------------------+");
-            console.log(`enemy fleet: ${this.enemyFleet.filter(s => (s.notHitted != 0)).map(s => s.name + " " + s.notHitted).join(", ")}`);
+
+            const enemyShips = this.enemyFleet.filter(s => (s.notHitted != 0));
+            const numberEnemyShipsInGame = enemyShips.length;
+
+            if (numberEnemyShipsInGame === 0) {
+                this.FinishGame(true);
+            }
+
+            console.log(`enemy fleet: ${enemyShips.map(s => s.name + " " + s.notHitted).join(", ")}`);
             console.log(`destroed enemy fleet: ${this.enemyFleet.filter(s => (s.notHitted == 0)).map(s => s.name + " " + s.notHitted).join(", ")}`);
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
@@ -103,8 +111,19 @@ class Battleship {
         while (true);
     }
 
+    FinishGame(userWon) {
+        if (userWon) {
+            console.log(cliColor.green('You are the winner!'))
+            this.animationEnd();
+        } else {
+            console.log(cliColor.blue('You have lost'));
+        }
+
+        process.exit();
+    }
+
     static ParsePosition(input) {
-        var letter = input[0];
+        var letter = input[0].toUpperCase();
         var number = input[1];
         return new position(letter, number);
     }
@@ -126,6 +145,13 @@ class Battleship {
 
     InitializeMyFleet() {
         this.myFleet = gameController.InitializeShips();
+
+        const myShips = this.myFleet.filter(s => (s.notHitted != 0));
+        const numberMyShipsInGame = myShips.length;
+
+        if (numberMyShipsInGame === 0) {
+            this.FinishGame(false);
+        }
 
         console.log("Please position your fleet (Game board size is from A to H and 1 to 8) :");
 
@@ -215,7 +241,7 @@ class Battleship {
                     continue;
                 }
                 const coordinates = line.split(',');
-                coordinates.forEach(c => this.enemyFleet[index].addPosition(new position(c[0], c[1])));
+                coordinates.forEach(c => this.enemyFleet[index].addPosition(new position(c[0].toUpperCase(), c[1])));
                 index++;
             }
         } catch (err) {
@@ -246,6 +272,22 @@ class Battleship {
             for (let pos = 0; pos < this.enemyFleet[index].positions.length; pos++) {
                 fs.writeFileSync('./mapCompute.txt', this.enemyFleet[index].positions[pos].toString() + '\n', { flag: 'a+' });
             }
+        }
+    }
+
+    animationEnd() {
+        function sleep(milliseconds) {
+            const date = Date.now();
+            let currentDate = null;
+            do {
+                currentDate = Date.now();
+            } while (currentDate - date < milliseconds);
+        }
+
+        let animation = [" .(^-^)'"," -(^-^)-"," '(^-^)."," -(^o^)-"," .(^-^)'"," -(^-^)-"," '(^-^)."," -(^-^)-"];
+        for (let index = 0; index < animation.length; index++) {
+            process.stdout.write(`${animation[index]}\r`);
+            sleep(300);
         }
     }
 }
