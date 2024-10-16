@@ -5,11 +5,12 @@ const cliColor = require('cli-color');
 const beep = require('beepbeep');
 const position = require("./GameController/position.js");
 const letters = require("./GameController/letters.js");
+const file = require('fs')
 let telemetryWorker;
 
 class Battleship {
     start() {
-        telemetryWorker = new Worker("./TelemetryClient/telemetryClient.js");   
+        telemetryWorker = new Worker("./TelemetryClient/telemetryClient.js");
 
         console.log("Starting...");
         telemetryWorker.postMessage({eventName: 'ApplicationStarted', properties:  {Technology: 'Node.js'}});
@@ -50,6 +51,8 @@ class Battleship {
             console.log("+------------------------------------------+");
             console.log("|              Player's turn               |");
             console.log("+------------------------------------------+");
+            console.log(`enemy fleet: ${this.enemyFleet.filter(s => (s.notHitted != 0)).map(s => s.name + " " + s.notHitted).join(", ")}`);
+            console.log(`destroed enemy fleet: ${this.enemyFleet.filter(s => (s.notHitted == 0)).map(s => s.name + " " + s.notHitted).join(", ")}`);
             console.log("Enter coordinates for your shot :");
             var position = Battleship.ParsePosition(readline.question());
             var isHit = gameController.CheckIsHit(this.enemyFleet, position);
@@ -162,6 +165,18 @@ class Battleship {
 
         this.enemyFleet[4].addPosition(new position(letters.C, 5));
         this.enemyFleet[4].addPosition(new position(letters.C, 6));
+        this.writeToFile();
+    }
+
+    writeToFile(){
+        for (let index = 0; index < this.enemyFleet.length; index++) {
+            for (let pos = 0; pos < this.enemyFleet[index].positions.length; pos++) {
+                file.unlinkSync('./mapCompute.txt');
+                file.writeFileSync('./mapCompute.txt', `${this.enemyFleet[index].positions[pos].toString()}\n`,{
+                    flag:'a+'
+                })   
+            }
+        }
     }
 }
 
