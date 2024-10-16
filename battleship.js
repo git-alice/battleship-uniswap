@@ -145,15 +145,17 @@ class Battleship {
         //     console.error("Error reading file:", err);
         // }
 
-        this.myFleet.forEach(function (ship) {
+        for (let i = 0; i < this.myFleet.length; i++) {
+            const ship = this.myFleet[i];
             console.log();
             console.log(`Please enter the positions for the ${ship.name} (size: ${ship.size})`);
             console.log(cliColor.green(`Enter first position of ${ship.size} and direction (i.e A3R):`));
             const position = readline.question();
             if(position[2] === 'R' || position[2] === 'r') {
-                if(position.indexOf(position[0]) + ship.size > 8) {
+                if(letters.get(position[0]).value + ship.size > 8) {
                     console.log(cliColor.red("Invalid position, please try again."));
                     i--;
+                    continue;
                 }
 
                 for (var j = 0; j < ship.size; j++) {
@@ -163,15 +165,17 @@ class Battleship {
                 if(parseInt(position[1]) + ship.size > 8) {
                     console.log(cliColor.red("Invalid position, please try again."));
                     i--;
+                    continue;
                 }
 
                 for (var j = 0; j < ship.size; j++) {
                     ship.addPosition(position[0], parseInt(position[1]) + j);
                 }
             } else if (position[2] === 'L' || position[2] === 'l') {
-                if(position.indexOf(position[0]) - ship.size < 0) {
+                if(letters.get(position[0]).value - ship.size < 0) {
                     console.log(cliColor.red("Invalid position, please try again."));
                     i--;
+                    continue;
                 }
 
                 for (var j = 0; j < ship.size; j++) {
@@ -182,6 +186,7 @@ class Battleship {
                 if(parseInt(position[1]) - ship.size < 0) {
                     console.log(cliColor.red("Invalid position, please try again."));
                     i--;
+                    continue;
                 }
 
                 for (var j = 0; j < ship.size; j++) {
@@ -191,7 +196,7 @@ class Battleship {
             // if (this.checkCollision(ship, this.myFleet)) {
             //     console.log(cliColor.red("Invalid position (checkCollision), please try again."));
             // }
-        });
+        }
     }
 
     InitializeEnemyFleet() {
