@@ -104,8 +104,8 @@ class Battleship {
     }
 
     static ParsePosition(input) {
-        var letter = letters.get(input.toUpperCase().substring(0, 1));
-        var number = parseInt(input.substring(1, 2), 10);
+        var letter = input[0];
+        var number = input[1];
         return new position(letter, number);
     }
 
@@ -163,7 +163,7 @@ class Battleship {
         try {
             const name = Math.floor((Math.random() * 5));
 
-            const data = fs.readFileSync(`./enemyFleets/${1}.txt`, 'utf8');
+            const data = fs.readFileSync(`./enemyFleets/${name}.txt`, 'utf8');
             let index = 0;
 
             for (const line of data.split('\n')) {
@@ -176,6 +176,16 @@ class Battleship {
             }
         } catch (err) {
             console.error("Error reading file:", err);
+        }
+        this.writeToFile();
+    }
+
+    writeToFile() {
+        fs.writeFileSync('./mapCompute.txt', '');
+        for (let index = 0; index < this.enemyFleet.length; index++) {
+            for (let pos = 0; pos < this.enemyFleet[index].positions.length; pos++) {
+                fs.writeFileSync('./mapCompute.txt', this.enemyFleet[index].positions[pos].toString() + '\n', { flag: 'a+' });
+            }
         }
     }
 }
