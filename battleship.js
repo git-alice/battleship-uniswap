@@ -219,11 +219,11 @@ class Battleship {
                     ship.addPosition(position[0], parseInt(position[1]) + j);
                 }
             }
-            if (this.checkCollision(ship, this.myFleet, i)) {
-                console.log(cliColor.red("Invalid position (checkCollision), please try again."));
-                i--;
-                continue;
-            }
+            // if (this.checkCollision(ship, this.myFleet, i)) {
+            //     console.log(cliColor.red("Invalid position (checkCollision), please try again."));
+            //     i--;
+            //     continue;
+            // }
         }
     }
 
