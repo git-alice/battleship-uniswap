@@ -3,7 +3,7 @@
 
 ```bash
 git clone git@github.com:git-alice/battleship-uniswap.git
-cd bsbattleship-uniswap
+cd battleship-uniswap
 npm install
 node index.js
 ```
