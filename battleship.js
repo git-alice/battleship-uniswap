@@ -145,16 +145,58 @@ class Battleship {
         //     console.error("Error reading file:", err);
         // }
 
-        this.myFleet.forEach(function (ship) {
+        for (let i = 0; i < this.myFleet.length; i++) {
+            const ship = this.myFleet[i];
             console.log();
             console.log(`Please enter the positions for the ${ship.name} (size: ${ship.size})`);
-            for (var i = 1; i < ship.size + 1; i++) {
-                    console.log(cliColor.green(`Enter position ${i} of ${ship.size} (i.e A3):`));
-                    const position = readline.question();
-                    telemetryWorker.postMessage({eventName: 'Player_PlaceShipPosition', properties:  {Position: position, Ship: ship.name, PositionInShip: i}});
-                    ship.addPosition(Battleship.ParsePosition(position));
+            console.log(cliColor.green(`Enter first position of ${ship.size} and direction (i.e A3R):`));
+            const position = readline.question();
+            if(position[2] === 'R' || position[2] === 'r') {
+                if(letters.get(position[0]).value + ship.size > 8) {
+                    console.log(cliColor.red("Invalid position, please try again."));
+                    i--;
+                    continue;
+                }
+
+                for (var j = 0; j < ship.size; j++) {
+                    ship.addPosition([letters.get(letters.get(position[0]).value + j).key, position[1]]);
+                }
+            } else if (position[2] === 'D' || position[2] === 'd') {
+                if(parseInt(position[1]) + ship.size > 8) {
+                    console.log(cliColor.red("Invalid position, please try again."));
+                    i--;
+                    continue;
+                }
+
+                for (var j = 0; j < ship.size; j++) {
+                    ship.addPosition(position[0], parseInt(position[1]) + j);
+                }
+            } else if (position[2] === 'L' || position[2] === 'l') {
+                if(letters.get(position[0]).value - ship.size < 0) {
+                    console.log(cliColor.red("Invalid position, please try again."));
+                    i--;
+                    continue;
+                }
+
+                for (var j = 0; j < ship.size; j++) {
+                    ship.addPosition([letters.get(letters.get(position[0]).value - j).key, position[1]]);
+                }
+
+            } else if (position[2] === 'U' || position[2] === 'u') {
+                if(parseInt(position[1]) - ship.size < 0) {
+                    console.log(cliColor.red("Invalid position, please try again."));
+                    i--;
+                    continue;
+                }
+
+                for (var j = 0; j < ship.size; j++) {
+                    ship.addPosition(position[0], parseInt(position[1]) + j);
+                }
             }
-        });
+            // if (this.checkCollision(ship, this.myFleet)) {
+            //     console.log(cliColor.red("Invalid position (checkCollision), please try again."));
+            // }
+        }
     }
 
     InitializeEnemyFleet() {
@@ -178,6 +220,19 @@ class Battleship {
             console.error("Error reading file:", err);
         }
         this.writeToFile();
+    }
+
+    checkCollision(ship, fleet) {
+        for (let index = 0; index < fleet.length; index++) {
+            for (let pos = 0; pos < fleet[index].positions.length; pos++) {
+                for (let i = 0; i < ship.positions.length; i++) {
+                    if (fleet[index].positions[pos].column === ship.positions[i].column && fleet[index].positions[pos].row === ship.positions[i].row) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     writeToFile() {
