@@ -1,4 +1,15 @@
 
+# Quickstart
+
+```bash
+git clone git@github.com:git-alice/battleship-uniswap.git
+cd battleship-uniswap
+npm install
+node index.js
+```
+
+---
+
 [![Build status](https://dev.azure.com/APS-SD-Stewards/APS-SD/_apis/build/status/proscrumdev.battleship-nodejs-CI)](https://dev.azure.com/APS-SD-Stewards/APS-SD/_build/latest?definitionId=22)
 
 # Battleship NodeJs
